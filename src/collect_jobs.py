@@ -82,7 +82,7 @@ def get_credentials() -> tuple[str, str]:
     """Read Adzuna credentials from the environment (loading ``.env`` first).
 
     Read at call time rather than import time so a ``.env`` created after this
-    module is imported — and monkeypatched values in tests — still apply.
+    module is imported - and monkeypatched values in tests - still apply.
     """
     load_dotenv(ROOT / ".env")
     app_id = os.environ.get("ADZUNA_APP_ID")
@@ -156,13 +156,13 @@ def fetch_query(query: str, max_pages: int, where: str = "UK") -> list[dict]:
             if response.status_code != 429:
                 break
             print(
-                f"[collect_jobs] Rate limited on '{query}' page {page} — "
+                f"[collect_jobs] Rate limited on '{query}' page {page} - "
                 f"backing off {RATE_LIMIT_BACKOFF_SECONDS}s "
                 f"(attempt {attempt + 1}/{MAX_RATE_LIMIT_RETRIES})."
             )
             time.sleep(RATE_LIMIT_BACKOFF_SECONDS)
         else:
-            print(f"[collect_jobs] Still rate limited on '{query}' page {page} — skipping.")
+            print(f"[collect_jobs] Still rate limited on '{query}' page {page} - skipping.")
             continue
 
         response.raise_for_status()
@@ -184,7 +184,7 @@ def collect(queries: list[str], max_pages: int, where: str = "UK") -> pd.DataFra
         try:
             rows.extend(fetch_query(query, max_pages=max_pages, where=where))
         except requests.exceptions.RequestException as exc:
-            print(f"[collect_jobs] Request error on '{query}': {exc} — skipping this query.")
+            print(f"[collect_jobs] Request error on '{query}': {exc} - skipping this query.")
     return pd.DataFrame(rows, columns=SCHEMA_COLUMNS)
 
 

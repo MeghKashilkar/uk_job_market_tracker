@@ -91,7 +91,7 @@ def save_diagnostic_plot(actual_log: pd.Series, predicted_log: np.ndarray, model
     axes.plot(limits, limits, "--", color="gray")
     axes.set_xlabel("Actual salary (£)")
     axes.set_ylabel("Predicted salary (£)")
-    axes.set_title(f"Predicted vs Actual — {model_name}")
+    axes.set_title(f"Predicted vs Actual - {model_name}")
     figure.tight_layout()
     figure.savefig(FIGURES_DIR / "salary_predicted_vs_actual.png", dpi=150)
     plt.close(figure)
@@ -110,7 +110,7 @@ def train(input_path: Path | str, cv_folds: int = DEFAULT_CV_FOLDS) -> pd.DataFr
     )
     if len(features) < MIN_ROWS_REQUIRED:
         print(
-            f"[train_salary_model] WARNING: only {len(features)} salaried rows — below the "
+            f"[train_salary_model] WARNING: only {len(features)} salaried rows - below the "
             f"{MIN_ROWS_REQUIRED}-row sanity threshold. Metrics below will be noisy; "
             "collect more data with src.collect_jobs before trusting this model."
         )

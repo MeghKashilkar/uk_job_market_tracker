@@ -1,6 +1,6 @@
 """Request/response models for the API.
 
-Only the request bodies are modelled strictly — responses are plain aggregation
+Only the request bodies are modelled strictly - responses are plain aggregation
 dictionaries built by :mod:`src.analytics`, and re-declaring each chart's shape
 here would be duplicated surface with nothing to enforce.
 """

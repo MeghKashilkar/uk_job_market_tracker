@@ -178,7 +178,7 @@ def salary_histogram(df: pd.DataFrame, bins: int = 24) -> list[dict[str, Any]]:
 def salary_by_top_skill(df: pd.DataFrame, limit: int = 12) -> list[dict[str, Any]]:
     """Median salary for each of the most-demanded skills.
 
-    This is the "which skills actually pay" view — the join of the NLP output
+    This is the "which skills actually pay" view - the join of the NLP output
     and the salary data that neither half shows on its own.
     """
     if "skills" not in df.columns or SALARY_COL not in df.columns:

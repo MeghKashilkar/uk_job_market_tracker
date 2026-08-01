@@ -337,7 +337,7 @@ def trigger_refresh() -> JSONResponse:
     if remaining:
         raise HTTPException(
             status_code=429,
-            detail=f"Refreshed recently — try again in {remaining}s.",
+            detail=f"Refreshed recently - try again in {remaining}s.",
         )
 
     refresh_service.start_refresh()

@@ -46,7 +46,7 @@ class SalaryModel:
 def get_dataset() -> pd.DataFrame:
     """Load the processed postings, with ``skills`` as real lists.
 
-    Raises ``FileNotFoundError`` if the pipeline has not been run — the API
+    Raises ``FileNotFoundError`` if the pipeline has not been run - the API
     turns that into a 503 rather than starting up in a broken state.
     """
     path = dataset_path()

@@ -38,7 +38,7 @@
   const numberFormat = new Intl.NumberFormat("en-GB");
 
   function formatMoney(value) {
-    return value === null || value === undefined ? "—" : "£" + numberFormat.format(value);
+    return value === null || value === undefined ? "-" : "£" + numberFormat.format(value);
   }
 
   function activeFilterCount() {
@@ -247,7 +247,7 @@
         `${numberFormat.format(data.totals.postings)} of ${numberFormat.format(total)} postings`;
     } catch (error) {
       if (error && error.name === "AbortError") return; // superseded by a newer change
-      $("#filter-result-count").textContent = "—";
+      $("#filter-result-count").textContent = "-";
     }
   }
 
@@ -260,7 +260,7 @@
       { label: "Locations", value: numberFormat.format(totals.locations) },
       {
         label: "Median salary",
-        value: totals.median_salary ? formatMoney(totals.median_salary) : "—",
+        value: totals.median_salary ? formatMoney(totals.median_salary) : "-",
         hint: `${Math.round(totals.salary_coverage * 100)}% of postings list pay`,
       },
     ];
@@ -535,7 +535,7 @@
             result.skills_ignored.length
               ? `, ${result.skills_ignored.length} unrecognised and ignored`
               : ""
-          }. This is a rough guide from advertised salaries — not an offer, and only as
+          }. This is a rough guide from advertised salaries - not an offer, and only as
           good as the data collected so far.
         </p>
       </div>`;
@@ -579,7 +579,7 @@
               <div class="posting__skills">${skills}</div>
             </div>
             <div class="posting__salary">
-              ${posting.salary ? formatMoney(posting.salary) : "—"}
+              ${posting.salary ? formatMoney(posting.salary) : "-"}
               <span class="posting__date">${Charts.formatDate(posting.created)}</span>
             </div>
           </article>`;
@@ -668,7 +668,7 @@
     salary: loadSalary,
     postings: loadPostings,
     predict: async function () {
-      /* Static form — populated once from meta, nothing per-filter to fetch. */
+      /* Static form - populated once from meta, nothing per-filter to fetch. */
     },
   };
 
@@ -697,7 +697,7 @@
         `typical error ${formatMoney(state.meta.model.mae_gbp)} · ` +
         `trained on ${numberFormat.format(state.meta.model.n_training_rows)} salaried postings · ` +
         `${state.meta.taxonomy.total_skills} skills tracked`
-      : "No trained salary model found — run python -m src.train_salary_model.";
+      : "No trained salary model found - run python -m src.train_salary_model.";
   }
 
 

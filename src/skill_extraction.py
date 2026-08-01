@@ -8,7 +8,7 @@ Why ``PhraseMatcher`` instead of a trained NER model: with no labeled UK job-ad
 dataset available, a supervised model would need hand-annotation before it
 could beat a well-curated dictionary. ``PhraseMatcher`` over lowercased tokens
 gets high-precision matches on multi-word technical terms (e.g. "power bi",
-"machine learning") without that labeling cost — a deliberate, defensible
+"machine learning") without that labeling cost - a deliberate, defensible
 trade-off, not an accidental shortcut.
 
 The spaCy pipeline and matcher are built once and reused; only the tokenizer is

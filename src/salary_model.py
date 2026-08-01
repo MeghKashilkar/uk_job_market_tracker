@@ -1,7 +1,7 @@
 """Feature engineering and preprocessing for salary prediction.
 
 Builds a feature matrix from role/seniority/location/contract metadata plus the
-skill-category counts already computed during processing — deliberately not raw
+skill-category counts already computed during processing - deliberately not raw
 text, so the salary model stays fast, interpretable, and independent of
 whichever NLP library extracted the skills.
 """
@@ -45,7 +45,7 @@ def filter_salaried_rows(df: pd.DataFrame) -> pd.DataFrame:
     """
     if TARGET_COL not in df.columns:
         raise KeyError(
-            f"'{TARGET_COL}' column missing — run src.process_data on the raw postings first."
+            f"'{TARGET_COL}' column missing - run src.process_data on the raw postings first."
         )
 
     salary = pd.to_numeric(df[TARGET_COL], errors="coerce")

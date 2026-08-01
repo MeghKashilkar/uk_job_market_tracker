@@ -6,7 +6,7 @@ Aliases exist because job descriptions are inconsistent ("Power BI" vs
 case-insensitively; the canonical name is what shows up in reports and the
 dashboard.
 
-This is hand-curated rather than mined from the data on purpose — it is a
+This is hand-curated rather than mined from the data on purpose - it is a
 domain-knowledge artifact you can defend in an interview ("here's why I
 grouped dbt under data engineering and not analytics engineering tooling
 alone"), and it is easy to extend as you notice gaps in real postings.

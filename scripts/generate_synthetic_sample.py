@@ -6,7 +6,7 @@ collected any real postings with your own Adzuna API key.
 
 This is NOT real job market data. Every row is randomly generated from
 templates. Do not use any numbers derived from this file in your CV, README
-results tables, or anywhere else that implies real market research — swap in
+results tables, or anywhere else that implies real market research - swap in
 real collected data first (`python -m src.collect_jobs`).
 
 Usage:

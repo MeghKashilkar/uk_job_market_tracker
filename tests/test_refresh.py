@@ -100,7 +100,7 @@ def test_is_available_is_true_with_credentials(monkeypatch):
 def test_merge_deduplicates_across_a_csv_roundtrip(tmp_path, monkeypatch):
     """Regression: Adzuna sends ids as str, a CSV round-trip returns them as int64.
 
-    Comparing the two unnormalised left both copies in the dataset — a real
+    Comparing the two unnormalised left both copies in the dataset - a real
     refresh duplicated 295 postings before this was fixed.
     """
     path = tmp_path / "numeric_ids.csv"

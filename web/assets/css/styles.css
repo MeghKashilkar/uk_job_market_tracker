@@ -1,5 +1,5 @@
 /* ==========================================================================
-   UK Data & Tech Job Market Tracker — design system
+   UK Data & Tech Job Market Tracker - design system
 
    Minimalist, Apple-flavoured: system typography, generous whitespace,
    translucent chrome, restrained colour, spring-timed motion. Light and dark
@@ -15,7 +15,7 @@
   --font-numeric: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded",
     "Segoe UI", Roboto, sans-serif;
 
-  /* Palette — light */
+  /* Palette - light */
   --bg: #f5f5f7;
   --bg-elevated: rgba(255, 255, 255, 0.72);
   --surface: #ffffff;
@@ -31,7 +31,7 @@
   --positive: #1d8a4e;
   --warning: #b25000;
 
-  /* Data visualisation — distinguishable in both themes and for common CVD */
+  /* Data visualisation - distinguishable in both themes and for common CVD */
   --series-1: #0071e3;
   --series-2: #5e5ce6;
   --series-3: #bf5af2;
@@ -53,7 +53,7 @@
   --radius-xl: 24px;
   --radius-pill: 980px;
 
-  /* Motion — a soft spring for entrances, a crisp ease for state changes */
+  /* Motion - a soft spring for entrances, a crisp ease for state changes */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
@@ -1353,7 +1353,7 @@ a:hover {
 }
 
 /* --------------------------------------------------------------------------
-   Accessibility — honour reduced motion everywhere
+   Accessibility - honour reduced motion everywhere
    -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {

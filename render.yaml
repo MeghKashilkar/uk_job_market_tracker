@@ -1,4 +1,4 @@
-# Render Blueprint — backend API.
+# Render Blueprint - backend API.
 # Dashboard → New → Blueprint → pick this repo.
 services:
   - type: web

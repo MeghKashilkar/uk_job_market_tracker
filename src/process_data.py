@@ -64,7 +64,7 @@ def add_salary_midpoint(df: pd.DataFrame) -> pd.DataFrame:
     """Coerce the salary bounds to numbers and derive their midpoint.
 
     A posting with only one bound still yields a midpoint (``mean`` skips NaN),
-    which is deliberate — a stated floor is better signal than dropping the row.
+    which is deliberate - a stated floor is better signal than dropping the row.
     """
     df = df.copy()
     for column in ("salary_min", "salary_max"):

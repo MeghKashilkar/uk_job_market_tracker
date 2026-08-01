@@ -7,7 +7,7 @@ request should hold a connection open.
 Deliberately *incremental*: it collects one page per query and merges the result
 into the existing processed dataset, deduped by Adzuna's job id. Rebuilding from
 the raw CSV instead would be wrong on a deployed instance, where ``data/raw/``
-is not shipped in the image — reprocessing would silently replace thousands of
+is not shipped in the image - reprocessing would silently replace thousands of
 rows with the few hundred just fetched.
 """
 
@@ -75,7 +75,7 @@ def is_available() -> bool:
     """Whether Adzuna credentials are configured for this process.
 
     Delegates to the collector's own resolution so a local ``.env`` and a
-    Render environment variable are treated identically — otherwise the button
+    Render environment variable are treated identically - otherwise the button
     would be hidden locally despite the keys being present.
     """
     try:
@@ -115,7 +115,7 @@ def merge_into_dataset(new_raw: pd.DataFrame) -> tuple[int, int]:
     """Process freshly-collected rows and merge them into the served dataset.
 
     Returns ``(rows_added, total_rows)``. Existing rows win on an id collision so
-    the original ``collected_at`` — and therefore the trend charts — stay honest.
+    the original ``collected_at`` - and therefore the trend charts - stay honest.
     """
     path = dataset_path()
     existing = load_processed(path) if path.exists() else pd.DataFrame()
@@ -155,7 +155,7 @@ def run_refresh() -> None:
             f"Added {added} new posting{'s' if added != 1 else ''} "
             f"({total} total)."
             if added
-            else f"Already up to date — no new postings ({total} total)."
+            else f"Already up to date - no new postings ({total} total)."
         )
     except Exception as exc:
         _state.status = FAILED

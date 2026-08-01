@@ -267,7 +267,7 @@
       ).textContent = opts.formatY ? opts.formatY(value) : formatCompact(value);
     }
 
-    // X axis labels — thinned so they never collide
+    // X axis labels - thinned so they never collide
     const maxTicks = Math.max(Math.floor(plotWidth / 76), 2);
     const stride = Math.ceil(labels.length / maxTicks);
     labels.forEach(function (label, index) {
@@ -348,7 +348,7 @@
         const value = s.points[index].value;
         attachTooltip(
           dot,
-          `${s.label ? s.label + " — " : ""}${formatDate(s.points[index].period)}: ${
+          `${s.label ? s.label + " - " : ""}${formatDate(s.points[index].period)}: ${
             opts.formatY ? opts.formatY(value) : value
           }`
         );
@@ -572,7 +572,7 @@
 
       attachTooltip(
         box,
-        `${group.label} — median ${formatMoney(group.median)} · ` +
+        `${group.label} - median ${formatMoney(group.median)} · ` +
           `IQR ${formatMoney(group.q1)}–${formatMoney(group.q3)} · n=${group.count}`
       );
     });

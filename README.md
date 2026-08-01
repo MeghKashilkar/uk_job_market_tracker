@@ -2,9 +2,9 @@
 
 Self-sourced (Adzuna API), NLP-driven tracker for the UK data/tech job market:
 skill demand extraction, role/seniority classification, salary prediction, and
-a dashboard — a FastAPI backend with a dependency-free HTML/CSS/JS frontend.
+a dashboard - a FastAPI backend with a dependency-free HTML/CSS/JS frontend.
 
-Portfolio project #2 for a UK job search — built to run alongside live job
+Portfolio project #2 for a UK job search - built to run alongside live job
 applications, since the whole point is watching real demand data accumulate
 over the weeks you're applying.
 
@@ -13,7 +13,7 @@ over the weeks you're applying.
 Project 1 (churn prediction) used a static, clean, pre-labeled Kaggle dataset.
 This one deliberately doesn't: you collect the data yourself from a live API,
 it's messy free-text HTML, and there's no ground-truth label for "what skills
-does this posting want" — that's why it's an NLP project rather than another
+does this posting want" - that's why it's an NLP project rather than another
 supervised classification exercise. It also produces something genuinely useful
 for the job search itself: real, current in-demand-skill and salary data for the
 roles you're applying to.
@@ -89,7 +89,7 @@ pip install -r requirements-dev.txt
 
 The spaCy English model is installed straight from its release wheel (it is
 listed in `requirements.txt`). Do **not** use `python -m spacy download
-en_core_web_sm` — that command builds a broken URL against current spaCy and
+en_core_web_sm` - that command builds a broken URL against current spaCy and
 404s.
 
 ## Run it
@@ -113,11 +113,11 @@ uvicorn api.main:app --reload
 
 `scripts/generate_synthetic_sample.py` makes up 400 fake-but-realistically-shaped
 postings so you can confirm the whole pipeline runs before touching the real API.
-**It is not real data — never quote numbers from it.**
+**It is not real data - never quote numbers from it.**
 
 ## Get real data
 
-1. Sign up free at [developer.adzuna.com](https://developer.adzuna.com/) — instant approval.
+1. Sign up free at [developer.adzuna.com](https://developer.adzuna.com/) - instant approval.
 2. `cp .env.example .env` and fill in `ADZUNA_APP_ID` / `ADZUNA_APP_KEY`.
 3. Collect, process, train:
    ```bash
@@ -180,7 +180,7 @@ server, and refreshes are rate-limited by `REFRESH_COOLDOWN_SECONDS` (default
 > **On Render's free tier, refreshed data is not durable.** Free instances have
 > no persistent disk, so anything a refresh adds is lost when the instance
 > sleeps (~15 min idle) or redeploys, and the dashboard reverts to the committed
-> dataset. That is fine for a live demo — "watch it fetch real jobs right now" —
+> dataset. That is fine for a live demo - "watch it fetch real jobs right now" -
 > but the durable path is still to run the pipeline locally and push, or to
 > attach a paid instance with a disk.
 
@@ -212,7 +212,7 @@ an unfiltered request never validates the query-parameter models, so filter
 bugs sail past any smoke test that only hits bare endpoints.
 `test_skill_extraction.py` auto-skips if spaCy isn't installed.
 
-## Deployment — Vercel (frontend) + Render (backend)
+## Deployment - Vercel (frontend) + Render (backend)
 
 The static UI goes on Vercel's CDN; the Python API runs as a container on
 Render.
@@ -250,11 +250,11 @@ Refresh them by re-running collection locally and pushing.
 - **Why PhraseMatcher over a trained NER model**: no labeled UK job-ad dataset
   exists to train against. A curated taxonomy + spaCy's `PhraseMatcher` gets
   high-precision multi-word matching ("power bi", "machine learning") for zero
-  labeling cost — a documented trade-off, not a shortcut.
+  labeling cost - a documented trade-off, not a shortcut.
 - **Why rule-based title classification**: keyword rules cover the large
   majority of real title phrasing, are trivially debuggable (a misclassification
   is "add one regex", not "re-label and retrain"), and need no labeled data.
-- **Salary modeled on the log scale**: UK data-role salaries are right-skewed —
+- **Salary modeled on the log scale**: UK data-role salaries are right-skewed -
   visible directly in the dashboard's salary histogram. Log-transforming stops a
   few Head-of-Data postings dominating the loss; predictions are exponentiated
   back to £.
@@ -262,7 +262,7 @@ Refresh them by re-running collection locally and pushing.
   so taking the last element yields a neighbourhood. Using it as a model feature
   produced 329 one-hot columns that couldn't generalise; taking the region
   (index 1) instead gives 13 and lifted XGBoost R² from 0.271 to 0.308.
-- **Deduped, timestamped collection**: `collect_jobs.py` is idempotent —
+- **Deduped, timestamped collection**: `collect_jobs.py` is idempotent -
   re-running never double-counts a posting, and `collected_at` is what makes
   "skill X is trending up" a defensible claim rather than a single snapshot.
 - **No frontend framework or charting library**: the four chart types needed

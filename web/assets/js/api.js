@@ -6,7 +6,7 @@
  *     UI and the API): same origin, so the base is empty.
  *   - Anywhere else (Vercel, or the Render URL directly): the backend named in
  *     <meta name="api-base">. This is what makes the Vercel-hosted frontend
- *     reach the Render backend without depending on a Vercel rewrite — the CDN
+ *     reach the Render backend without depending on a Vercel rewrite - the CDN
  *     serves the static files, the browser calls Render directly, and Render's
  *     CORS is open.
  *
@@ -72,7 +72,7 @@
             typeof payload.detail === "string" ? payload.detail : JSON.stringify(payload.detail);
         }
       } catch (_) {
-        /* response had no JSON body — keep the status-based message */
+        /* response had no JSON body - keep the status-based message */
       }
       throw new ApiError(detail, response.status);
     }
