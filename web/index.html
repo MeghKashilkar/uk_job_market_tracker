@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>UK Data &amp; Tech Job Market Tracker</title>
+    <meta
+      name="description"
+      content="Skill demand, salary trends and salary prediction for UK data and tech roles, from self-collected Adzuna postings."
+    />
+    <!-- Backend API origin used when this page is NOT served from localhost
+         (i.e. on Vercel). Point it at your Render service. Ignored in local
+         dev, where uvicorn serves the API on the same origin. -->
+    <meta name="api-base" content="https://uk-job-market-tracker-api.onrender.com" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="app-shell">
+      <header class="masthead">
+        <div class="masthead__inner">
+          <div class="masthead__brand">
+            <span class="masthead__mark" aria-hidden="true"></span>
+            <div>
+              <h1 class="masthead__title">UK Data &amp; Tech Job Market</h1>
+              <p class="masthead__subtitle" id="dataset-summary">Loading dataset…</p>
+            </div>
+          </div>
+
+          <div class="masthead__actions">
+            <button
+              type="button"
+              class="icon-button"
+              id="filter-toggle"
+              aria-expanded="false"
+              aria-controls="filter-panel"
+            >
+              <svg viewBox="0 0 20 20" aria-hidden="true" width="17" height="17">
+                <path
+                  d="M3 5.5h14M6 10h8M8.5 14.5h3"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <span>Filters</span>
+              <span class="badge" id="filter-count" hidden>0</span>
+            </button>
+
+            <button
+              type="button"
+              class="icon-button icon-button--square"
+              id="refresh-button"
+              aria-label="Fetch the latest postings from Adzuna"
+              title="Fetch the latest postings"
+              hidden
+            >
+              <svg viewBox="0 0 20 20" aria-hidden="true" width="16" height="16" class="refresh-icon">
+                <path
+                  d="M16.5 10a6.5 6.5 0 1 1-1.9-4.6M16.5 3v3.2h-3.2"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+
+            <button
+              type="button"
+              class="icon-button icon-button--square"
+              id="theme-toggle"
+              aria-label="Switch colour theme"
+            >
+              <svg viewBox="0 0 20 20" aria-hidden="true" width="17" height="17">
+                <path
+                  d="M15.5 12.4A6.2 6.2 0 0 1 7.6 4.5a6.3 6.3 0 1 0 7.9 7.9Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <nav class="segmented" role="tablist" aria-label="Dashboard sections">
+          <span class="segmented__thumb" aria-hidden="true"></span>
+          <button role="tab" class="segmented__item is-active" data-view="overview" aria-selected="true" id="tab-overview" aria-controls="view-overview">
+            Overview
+          </button>
+          <button role="tab" class="segmented__item" data-view="skills" aria-selected="false" id="tab-skills" aria-controls="view-skills">
+            Skills
+          </button>
+          <button role="tab" class="segmented__item" data-view="salary" aria-selected="false" id="tab-salary" aria-controls="view-salary">
+            Salary
+          </button>
+          <button role="tab" class="segmented__item" data-view="predict" aria-selected="false" id="tab-predict" aria-controls="view-predict">
+            Predict
+          </button>
+          <button role="tab" class="segmented__item" data-view="postings" aria-selected="false" id="tab-postings" aria-controls="view-postings">
+            Postings
+          </button>
+        </nav>
+      </header>
+
+      <div class="filter-scrim" id="filter-scrim" hidden></div>
+      <aside class="filter-panel" id="filter-panel" aria-label="Filters" hidden>
+        <div class="filter-panel__head">
+          <h2>Filters</h2>
+          <button type="button" class="text-button" id="filter-reset">Reset all</button>
+        </div>
+        <div class="filter-panel__body" id="filter-groups"></div>
+        <div class="filter-panel__foot">
+          <p id="filter-result-count">—</p>
+          <button type="button" class="button button--primary" id="filter-apply">Done</button>
+        </div>
+      </aside>
+
+      <main id="main" class="content">
+        <div class="alert" id="global-alert" hidden role="alert"></div>
+        <div class="toast" id="refresh-toast" hidden role="status" aria-live="polite"></div>
+
+        <!-- Overview -->
+        <section class="view is-active" id="view-overview" role="tabpanel" aria-labelledby="tab-overview">
+          <div class="stat-row" id="stat-row"></div>
+          <div class="grid grid--2">
+            <article class="card" data-reveal>
+              <header class="card__head">
+                <h3>Postings per week</h3>
+                <p>When the postings in view were published</p>
+              </header>
+              <div class="card__body" id="chart-postings-week"></div>
+            </article>
+            <article class="card" data-reveal>
+              <header class="card__head">
+                <h3>Salary distribution</h3>
+                <p>Advertised salary midpoints</p>
+              </header>
+              <div class="card__body" id="chart-salary-hist"></div>
+            </article>
+          </div>
+          <div class="grid grid--2">
+            <article class="card" data-reveal>
+              <header class="card__head">
+                <h3>Roles</h3>
+                <p>Postings by role category</p>
+              </header>
+              <div class="card__body" id="chart-by-role"></div>
+            </article>
+            <article class="card" data-reveal>
+              <header class="card__head">
+                <h3>Top locations</h3>
+                <p>Where the roles are</p>
+              </header>
+              <div class="card__body" id="chart-locations"></div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Skills -->
+        <section class="view" id="view-skills" role="tabpanel" aria-labelledby="tab-skills" hidden>
+          <article class="card" data-reveal>
+            <header class="card__head card__head--row">
+              <div>
+                <h3>Skill demand</h3>
+                <p>Share of postings whose summary mentions each skill</p>
+              </div>
+              <div class="control-cluster">
+                <label class="select">
+                  <span class="select__label">Category</span>
+                  <select id="skill-category"></select>
+                </label>
+                <label class="select">
+                  <span class="select__label">Show</span>
+                  <select id="skill-limit">
+                    <option value="10">Top 10</option>
+                    <option value="20" selected>Top 20</option>
+                    <option value="30">Top 30</option>
+                    <option value="50">Top 50</option>
+                  </select>
+                </label>
+              </div>
+            </header>
+            <div class="card__body" id="chart-skill-demand"></div>
+            <p class="card__note">
+              Adzuna's search API returns the first 500 characters of each advert, so these
+              are skills named in the summary. Treat them as a consistent lower bound on
+              true demand — the ranking is comparable across skills, the percentages are not
+              the share of full job specs.
+            </p>
+          </article>
+
+          <article class="card" data-reveal>
+            <header class="card__head">
+              <h3>Demand over time</h3>
+              <p>Weekly mentions — pick up to eight skills to compare</p>
+            </header>
+            <div class="card__body">
+              <div class="chip-row" id="trend-chips"></div>
+              <div id="chart-skill-trend"></div>
+            </div>
+          </article>
+        </section>
+
+        <!-- Salary -->
+        <section class="view" id="view-salary" role="tabpanel" aria-labelledby="tab-salary" hidden>
+          <article class="card" data-reveal>
+            <header class="card__head">
+              <h3>Salary by role</h3>
+              <p>Median, quartiles and range per role category</p>
+            </header>
+            <div class="card__body" id="chart-salary-role"></div>
+          </article>
+          <article class="card" data-reveal>
+            <header class="card__head">
+              <h3>Salary by seniority</h3>
+              <p>How pay scales with level</p>
+            </header>
+            <div class="card__body" id="chart-salary-seniority"></div>
+          </article>
+          <article class="card" data-reveal>
+            <header class="card__head">
+              <h3>Which skills pay</h3>
+              <p>Median advertised salary among postings mentioning each skill</p>
+            </header>
+            <div class="card__body" id="chart-salary-skill"></div>
+          </article>
+        </section>
+
+        <!-- Predict -->
+        <section class="view" id="view-predict" role="tabpanel" aria-labelledby="tab-predict" hidden>
+          <div class="grid grid--predict">
+            <article class="card" data-reveal>
+              <header class="card__head">
+                <h3>Estimate a salary</h3>
+                <p>Describe a role and the trained model prices it</p>
+              </header>
+              <form class="card__body form" id="predict-form">
+                <div class="field-grid">
+                  <label class="select select--block">
+                    <span class="select__label">Role category</span>
+                    <select id="predict-role" required></select>
+                  </label>
+                  <label class="select select--block">
+                    <span class="select__label">Seniority</span>
+                    <select id="predict-seniority" required></select>
+                  </label>
+                  <label class="select select--block">
+                    <span class="select__label">Region</span>
+                    <select id="predict-region" required></select>
+                  </label>
+                  <label class="select select--block">
+                    <span class="select__label">Contract type</span>
+                    <select id="predict-contract-type" required></select>
+                  </label>
+                  <label class="select select--block">
+                    <span class="select__label">Contract time</span>
+                    <select id="predict-contract-time" required></select>
+                  </label>
+                </div>
+
+                <fieldset class="skills-picker">
+                  <legend>
+                    Skills
+                    <span class="skills-picker__count" id="predict-skill-count">0 selected</span>
+                  </legend>
+                  <div class="chip-row chip-row--scroll" id="predict-skills"></div>
+                </fieldset>
+
+                <button type="submit" class="button button--primary button--block" id="predict-submit">
+                  Estimate salary
+                </button>
+              </form>
+            </article>
+
+            <article class="card card--result" data-reveal>
+              <div class="card__body" id="predict-result">
+                <div class="placeholder">
+                  <div class="placeholder__mark" aria-hidden="true">£</div>
+                  <p>Fill in the role and press <strong>Estimate salary</strong>.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Postings -->
+        <section class="view" id="view-postings" role="tabpanel" aria-labelledby="tab-postings" hidden>
+          <article class="card" data-reveal>
+            <header class="card__head card__head--row">
+              <div>
+                <h3>Recent postings</h3>
+                <p>Most recently published roles matching your filters</p>
+              </div>
+              <label class="search">
+                <svg viewBox="0 0 20 20" aria-hidden="true" width="15" height="15">
+                  <circle cx="9" cy="9" r="5.4" fill="none" stroke="currentColor" stroke-width="1.6" />
+                  <path d="m13.2 13.2 3.3 3.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+                <input type="search" id="postings-search" placeholder="Filter by title, company, skill" />
+              </label>
+            </header>
+            <div class="card__body card__body--flush" id="postings-list"></div>
+          </article>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>
+          Self-collected from the
+          <a href="https://developer.adzuna.com/" target="_blank" rel="noopener noreferrer">Adzuna Job Search API</a>.
+          Skills extracted with a curated taxonomy and spaCy PhraseMatcher.
+          Salary estimates are indicative, not offers.
+        </p>
+        <p class="footer__meta" id="model-card">—</p>
+      </footer>
+    </div>
+
+    <script src="/assets/js/charts.js"></script>
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/app.js"></script>
+  </body>
+</html>

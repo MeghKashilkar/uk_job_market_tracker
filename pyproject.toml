@@ -1,0 +1,39 @@
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors (PEP 8)
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # import ordering
+    "B",    # bugbear
+    "C4",   # comprehensions
+    "UP",   # pyupgrade
+    "SIM",  # simplifications
+    "PERF", # performance
+    "RUF",
+    "D",    # docstrings
+]
+ignore = [
+    "D203",  # incompatible with D211
+    "D213",  # incompatible with D212
+    "D401",  # imperative-mood is too strict for descriptive helpers
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D103"]  # test names document themselves
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

@@ -1,0 +1,26 @@
+# Render Blueprint — backend API.
+# Dashboard → New → Blueprint → pick this repo.
+services:
+  - type: web
+    name: uk-job-market-tracker-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: frankfurt # closest Render region to UK users
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      # Browsers calling the API directly (i.e. not through the Vercel rewrite)
+      # need this set to the frontend's origin. Leave unset to allow any origin.
+      - key: CORS_ORIGINS
+        sync: false
+      # Set these to enable the dashboard's live Refresh button, which pulls the
+      # newest postings from Adzuna on demand. Leave them unset and the button
+      # stays hidden; the dashboard still serves the committed dataset.
+      - key: ADZUNA_APP_ID
+        sync: false
+      - key: ADZUNA_APP_KEY
+        sync: false
+      # Minimum seconds between refreshes (default 300), protecting the quota.
+      - key: REFRESH_COOLDOWN_SECONDS
+        sync: false
