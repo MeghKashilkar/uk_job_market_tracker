@@ -1,0 +1,21 @@
+# Vercel hosts ONLY the static frontend in web/. Everything below belongs to the
+# Render backend and must not be uploaded.
+#
+# api/ matters most: Vercel's zero-config treats a root-level `api/` directory as
+# Python Serverless Functions, which would both fail to build and shadow the
+# /api/* rewrite that proxies to Render.
+api/
+src/
+scripts/
+tests/
+data/
+models/
+reports/
+.venv/
+Dockerfile
+render.yaml
+requirements.txt
+requirements-dev.txt
+pyproject.toml
+*.pyc
+__pycache__/

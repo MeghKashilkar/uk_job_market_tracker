@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.claude/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.vercel/
+collect.log
+
+# Raw collected postings: large, re-derivable, and not what the demo serves.
+# data/processed/ and models/ ARE committed so the deployed app has data.
+data/raw/adzuna_jobs.csv
